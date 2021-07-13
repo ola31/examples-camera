@@ -4,7 +4,10 @@ This repo contains a collection of examples that use camera streams
 together with the [TensorFlow Lite API](https://tensorflow.org/lite) with a
 Coral device such as the
 [USB Accelerator](https://coral.withgoogle.com/products/accelerator) or
-[Dev Board](https://coral.withgoogle.com/products/dev-board).
+[Dev Board](https://coral.withgoogle.com/products/dev-board).    
+google coral usb accelerator를 위한 
+[Get started](https://coral.ai/docs/accelerator/get-started/) 
+페이지를 따라한 후에 이 패키지를 받아야 함.
 
 ## Installation
 

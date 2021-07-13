@@ -24,7 +24,7 @@ USB/PCIe/M.2 Accelerator.
     ```
     mkdir google-coral && cd google-coral
 
-    git clone https://github.com/google-coral/examples-camera --depth 1
+    git clone https://github.com/ola31/examples-camera --depth 1
     ```
 
 3.  Download the models:

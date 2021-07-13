@@ -26,15 +26,9 @@ python3 detect.py \
   --labels ${TEST_DATA}/coco_labels.txt
 
 """
-
-# -*- coding: utf-8 -*-
-
 import argparse
 import cv2
 import os
-
-from socket import*
-import time
 
 from pycoral.adapters.common import input_size
 from pycoral.adapters.detect import get_objects
@@ -42,27 +36,7 @@ from pycoral.utils.dataset import read_label_file
 from pycoral.utils.edgetpu import make_interpreter
 from pycoral.utils.edgetpu import run_inference
 
-
-x0=int()
-x1=int()
-y0=int()
-y1=int()
-
-global obj, percent
-
 def main():
-    global obj, percent
-    host="127.0.0.1"
-    port=12347 #임의번호
-
-    serverSocket = socket(AF_INET,SOCK_STREAM) #소켓 생성 
-    serverSocket.bind((host,port))   # 생성한 소켓에 설정한 HOST와 PORT맵핑
-    serverSocket.listen(1)    # 맵핑된 소켓을 연결 요청 대기 상태로 전환
-    print("대기중입니다")
-    connectionSocket,addr = serverSocket.accept()  # 실제 소켓 연결 시 반환되는 실제 통신용 연결된 소켓과 연결주소
-
-    print(str(addr)+"is connected")  #연결 완료했다고 알림
-
     default_model_dir = '../all_models'
     default_model = 'mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite'
     default_labels = 'coco_labels.txt'
@@ -98,35 +72,14 @@ def main():
         objs = get_objects(interpreter, args.threshold)[:args.top_k]
         cv2_im = append_objs_to_img(cv2_im, inference_size, objs, labels)
 
-        prob = percent
-        x11=x0
-        y11=y0
-        x22=x1
-        y22=y1
-        clss = labels.get(obj.id, obj.id)
-
-        prob_s = str(prob)
-        x1_s = str(x11)
-        y1_s = str(y11)
-        x2_s = str(x22)
-        y2_s = str(y22)
-        clss_s = str(labels.get(obj.id, obj.id))
-
-
-        send_data = prob_s + '|' + x1_s + '|' + y1_s + '|' + x2_s + '|' + y2_s + '|' + clss_s + '|'
-        connectionSocket.send(send_data.encode("UTF-8"))
-
         cv2.imshow('frame', cv2_im)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-        time.sleep(0.005)
 
     cap.release()
     cv2.destroyAllWindows()
-    serverSocket.close()  #서버 닫기
 
 def append_objs_to_img(cv2_im, inference_size, objs, labels):
-    global x0,x1,y0,y1,obj,percent
     height, width, channels = cv2_im.shape
     scale_x, scale_y = width / inference_size[0], height / inference_size[1]
     for obj in objs:

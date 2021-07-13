@@ -43,11 +43,31 @@ USB/PCIe/M.2 Accelerator.
     bash install_requirements.sh
     ```
 
+5. yolo_data 패키지 설치 (패키지 이름이 yolo_data이지만 yolo나 darknet과는 관련 없음)
+
+    ```
+    cd ~/catkin_ws/src
+
+    git clone https://github.com/ola31/yolo_data_coral.git
+
+    cd ~/catkin_ws
+
+    catkin build yolo_data
+
+    cd ~/google-coral/examples-camera/opencv
+
+    ```
+
+
 
 ## Run the detection demo (SSD models)
 
 ```
 python3 detect.py
+
+roscore
+
+rosrun yolo_data yolo_data.py
 ```
 
 By default, this uses the ```mobilenet_ssd_v2_coco_quant_postprocess_edgetpu.tflite``` model.
